@@ -1,0 +1,46 @@
+{
+    "user_register": {
+        "type": "object",
+        "properties": {
+            "PRIMER_NOMBRE": {
+                "type": "string"
+            },
+            "SEGUNDO_NOMBRE": {
+                "type": "string"
+            },
+            "PRIMER_APELLIDO": {
+                "type": "string"
+            },
+            "SEGUNDO_APELLIDO": {
+                "type": "string"
+            },
+            "EDAD": {
+                "type": "integer"
+            },
+            "SEXO": {
+                "type": "string"
+            },
+            "GRUPO": {
+                "type": "integer"
+            },
+            "PRIVILEGIO_SERVICIO": {
+                "type": "integer"
+            },
+            "TELEFONO_1": {
+                "type": "string"
+            },
+            "TELEFONO_2": {
+                "type": "string"
+            },
+            "CORREO": {
+                "type": "string"
+            },
+            "DIRECCION": {
+                "type": "string"
+            }
+        },
+        "required": ["PRIMER_NOMBRE", "PRIMER_APELLIDO", "EDAD", "SEXO", "GRUPO", "PRIVILEGIO_SERVICIO", "TELEFONO_1", "DIRECCION"],
+        "default": {"SEGUNDO_NOMBRE": null,"SEGUNDO_APELLIDO": null,"TELEFONO_2": null,"CORREO": null}
+    }
+    
+}
