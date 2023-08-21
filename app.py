@@ -12,7 +12,7 @@ congregation = Congregation()
 users = User()
 
 # Definition of the route.
-@app.route("/users_congregation/")
+@app.route("/users_congregation/", methods = ["GET"])
 def consult_register():
 
     """
@@ -57,12 +57,39 @@ def register():
             "DIRECCION":request.json["DIRECCION"]
 
         }
-        print("Data:  ",data_new_user)
+        
+        # Json data validator.
         validate_data(data_new_user,"user_register")
 
         # Registration function.
         register_user = users.user_registration(data_new_user)
         return jsonify(register_user)
+
+    except Exception as e:
+        return str(e)  # Returns the error as a string.
+    
+
+
+# Definition of the route.
+@app.route("/consult_privilegios_congregation/", methods = ["GET"])
+def consult_elders():
+
+    """
+    Path showing the elders of the congregation.
+
+    Ruta que muestra los ancianos de la congregación.
+    """
+    try:
+
+        data = {
+
+            "ID_PRIVILEGIO":request.json["ID_PRIVILEGIO"]
+
+        }
+
+        # Consult function.
+        res = congregation.consult_congregation_privilegios(**data)
+        return jsonify(res)
 
     except Exception as e:
         return str(e)  # Returns the error as a string.

@@ -24,7 +24,7 @@ class User(Response):
             db.commit()
 
             # Answer.
-            res = {"message":"satisfactory execution","state":200}
+            res = {"message":"registration success","state":200}
             return res
 
         except Exception as e:

@@ -77,7 +77,8 @@ ADD FOREIGN KEY (GRUPO) REFERENCES GRUPOS(ID);
 ALTER TABLE USUARIOS MODIFY TELEFONO_2 varchar(100) DEFAULT NULL;
 
 -- Query para actualizar el campo grupo de cada usuario.
-UPDATE USUARIOS SET GRUPO = 5 WHERE ID = 13;
+USE Infosis;
+UPDATE GRUPOS SET NUMERO_DE_INTEGRANTES = 2 WHERE ID = 2;
 
 -- Consulta para traer los uruarios de cada grupo.
 SELECT * FROM USUARIOS WHERE GRUPO = 2;
