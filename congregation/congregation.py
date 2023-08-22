@@ -1,6 +1,6 @@
 from Utils.Database import Database
 from Utils.Response import Response
-from models.model_usuarios_table import Model_usuarios as U
+from models.model_usuarios_table import Model_users as U
 import json
 
 
@@ -35,14 +35,14 @@ class Congregation(Response):
 
 
 
-    def consult_congregation_privilegios(self, data:dict) -> dict:
+    def filter_privileges(self, data:dict) -> dict:
 
         """
-        Method in charge of consulting the registered users
-        in the users table where service_privilege = 6 or (Elder).
+        Method in charge of listing the users belonging to a
+        specific privilege.
 
-        Metodo encargado de consultar los usuarios registrados
-        en la tabla usuarios donde privilegio_servicio = 6 o (Anciano)
+        Metodo encargado de listar los usuarios pertenecientes a un
+        privilegio especifico.
         """
 
         # Database instance.
@@ -50,6 +50,7 @@ class Congregation(Response):
         
         try:
 
+            # reception variable.
             id_privilegio = data["ID_PRIVILEGIO"]
             query = db.query(U).filter(U.PRIVILEGIO_SERVICIO == id_privilegio).all()
             res = json.loads(str(query))

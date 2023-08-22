@@ -1,11 +1,10 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 import json
 
 Base = declarative_base()
 
-class Model_usuarios(Base):
+class Model_users(Base):
 
     __tablename__ = 'USUARIOS'
     

@@ -70,8 +70,8 @@ TIPO VARCHAR(150) NOT NULL
 
 -- Query para agregar una llave foranea a la tabla usuarios.
 USE Infosis;
-ALTER TABLE USUARIOS
-ADD FOREIGN KEY (GRUPO) REFERENCES GRUPOS(ID);
+ALTER TABLE INFORMES
+ADD FOREIGN KEY (ID_GRUPO) REFERENCES GRUPOS(ID);
 
 -- Query para modificar el tipo de datos y caracteristicas de un campo especifico de la tabla usuarios.
 ALTER TABLE USUARIOS MODIFY TELEFONO_2 varchar(100) DEFAULT NULL;
@@ -82,3 +82,7 @@ UPDATE GRUPOS SET NUMERO_DE_INTEGRANTES = 2 WHERE ID = 2;
 
 -- Consulta para traer los uruarios de cada grupo.
 SELECT * FROM USUARIOS WHERE GRUPO = 2;
+
+USE Infosis;
+ALTER TABLE INFORMES
+ADD COLUMN ESTUDIOS INT default 0;

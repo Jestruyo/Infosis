@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from Utils.Validations import validate_data
-from models.model_usuarios_table import Model_usuarios as U
 from congregation.congregation import Congregation
 from users.users import User
 
@@ -59,7 +58,7 @@ def register():
         }
         
         # Json data validator.
-        validate_data(data_new_user,"user_register")
+        validate_data(data_new_user,"register")
 
         # Registration function.
         register_user = users.user_registration(data_new_user)
@@ -71,24 +70,59 @@ def register():
 
 
 # Definition of the route.
-@app.route("/consult_privilegios_congregation/", methods = ["GET"])
-def consult_elders():
+@app.route("/log_reports/", methods = ["POST"])
+def reports():
 
     """
-    Path showing the elders of the congregation.
+    Route that performs a new service report record.
+    
+    Ruta que realiza un nuevo registro de informe de servicio.
+    """
+    try:
 
-    Ruta que muestra los ancianos de la congregación.
+        # Dictionary of required data.
+        data_new_report = {
+
+            "ID_USUARIO":request.json["ID_USUARIO"],
+            "HORAS":request.json["HORAS"],
+            "PUBLICACIONES":request.json["PUBLICACIONES"],
+            "REVISITAS":request.json["REVISITAS"],
+            "ESTUDIOS":request.json["ESTUDIOS"]
+
+        }
+        
+        # Json data validator.
+        validate_data(data_new_report,"reports")
+
+        # Registration function.
+        register_user = users.log_reports(data_new_report)
+        return jsonify(register_user)
+
+    except Exception as e:
+        return str(e)  # Returns the error as a string.
+    
+
+
+# Definition of the route.
+@app.route("/filter_privileges_congregation/", methods = ["POST"])
+def filter_privileges():
+
+    """
+    Route that shows the list filtered by privileges.
+
+    Rura que muestra el listado filtrado por privilegios.
     """
     try:
 
         data = {
-
             "ID_PRIVILEGIO":request.json["ID_PRIVILEGIO"]
-
         }
 
+        # Json data validator.
+        validate_data(data,"filter_privileges")
+
         # Consult function.
-        res = congregation.consult_congregation_privilegios(**data)
+        res = congregation.filter_privileges(data)
         return jsonify(res)
 
     except Exception as e:

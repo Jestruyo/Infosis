@@ -1,5 +1,5 @@
 {
-    "user_register": {
+    "register": {
         "type": "object",
         "properties": {
             "PRIMER_NOMBRE": {
@@ -44,6 +44,42 @@
             }
         },
         "required": ["PRIMER_NOMBRE", "PRIMER_APELLIDO", "EDAD", "SEXO", "GRUPO", "PRIVILEGIO_SERVICIO", "TELEFONO_1", "DIRECCION"]
+    },
+
+    "filter_privileges":{
+        "type": "object",
+        "properties":{
+            "ID_PRIVILEGIO":{
+                "type": "integer"
+            }
+        },
+        "required":["ID_PRIVILEGIO"]
+    },
+
+    "reports":{
+        "type": "object",
+        "properties":{
+            "ID_USUARIO":{
+                "type": "integer"
+            },
+            "HORAS":{
+                "type": "integer",
+                "default": 0
+            },
+            "PUBLICACIONES":{
+                "type": "integer",
+                "default": 0
+            },
+            "REVISITAS":{
+                "type": "integer",
+                "default": 0
+            },
+            "ESTUDIOS":{
+                "type": "integer",
+                "default": 0
+            }
+        },
+        "required":["ID_USUARIO"]
     }
     
 }
