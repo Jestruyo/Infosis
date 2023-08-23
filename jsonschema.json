@@ -39,11 +39,17 @@
                 "type": "string",
                 "default": null
             },
+            "USERNAME":{
+                "type": "string"
+            },
+            "PASSWS":{
+                "type": "string"
+            },
             "DIRECCION": {
                 "type": "string"
             }
         },
-        "required": ["PRIMER_NOMBRE", "PRIMER_APELLIDO", "EDAD", "SEXO", "GRUPO", "PRIVILEGIO_SERVICIO", "TELEFONO_1", "DIRECCION"]
+        "required": ["PRIMER_NOMBRE", "PRIMER_APELLIDO", "EDAD", "SEXO", "GRUPO", "PRIVILEGIO_SERVICIO", "TELEFONO_1", "USERNAME", "PASSWS", "DIRECCION"]
     },
 
     "filter_privileges":{
@@ -80,6 +86,19 @@
             }
         },
         "required":["ID_USUARIO"]
+    },
+
+    "tokens":{
+        "type": "object",
+        "properties":{
+            "USERNAME":{
+                "type":"string"
+            },
+            "PASSWS":{
+                "type": "string"
+            }
+        },
+        "required":["USERNAME", "PASSWS"]
     }
     
 }

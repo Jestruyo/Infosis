@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from Utils.Validations import validate_data
+from login import Login
 from congregation.congregation import Congregation
 from users.users import User
 
@@ -9,6 +10,7 @@ app = Flask(__name__)
 # Class instances.
 congregation = Congregation()
 users = User()
+login = Login()
 
 # Definition of the route.
 @app.route("/users_congregation/", methods = ["GET"])
@@ -26,6 +28,7 @@ def consult_register():
 
     except Exception as e:
         return str(e)  # Returns the error as a string.
+
     
 
 # Definition of the route.
@@ -53,6 +56,8 @@ def register():
             "TELEFONO_1":request.json["TELEFONO_1"],
             "TELEFONO_2":request.json["TELEFONO_2"],
             "CORREO":request.json["CORREO"],
+            "USERNAME":request.json["USERNAME"],
+            "PASSWS":request.json["PASSWS"],
             "DIRECCION":request.json["DIRECCION"]
 
         }
@@ -63,6 +68,36 @@ def register():
         # Registration function.
         register_user = users.user_registration(data_new_user)
         return jsonify(register_user)
+
+    except Exception as e:
+        return str(e)  # Returns the error as a string.
+    
+
+
+# Definition of the route.
+@app.route("/get_tokens/", methods = ["POST"])
+def tokens():
+
+    """
+    Rura that generates the user tokens.
+
+    Rura que genera el tokens de usuario.
+    """
+    try:
+
+        # Dictionary of required data.
+        data = {
+
+            "USERNAME":request.json["USERNAME"],
+            "PASSWS":request.json["PASSWS"]
+        }
+
+        # Json data validator.
+        validate_data(data,"tokens")
+
+        # Token generation.
+        result = login.get_tokens(data)
+        return jsonify({"Token":result})
 
     except Exception as e:
         return str(e)  # Returns the error as a string.
@@ -127,6 +162,8 @@ def filter_privileges():
 
     except Exception as e:
         return str(e)  # Returns the error as a string.
+    
+
 
 # Initialization of the local server, if __name__ is the main file.
 if __name__ == "__main__":

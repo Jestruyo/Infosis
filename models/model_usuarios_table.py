@@ -20,6 +20,8 @@ class Model_users(Base):
     TELEFONO_1 = Column(String(100))
     TELEFONO_2 = Column(String(100))
     CORREO = Column(String(100))
+    USERNAME = Column(String(20), nullable= False)
+    PASSWS = Column(String(20), nullable= False)
     DIRECCION = Column(String(200), nullable=False)
 
     def __ini__(self, payload):
@@ -35,6 +37,8 @@ class Model_users(Base):
         self.TELEFONO_1 = payload["TELEFONO_1"]
         self.TELEFONO_2 = payload["TELEFONO_2"]
         self.CORREO = payload["CORREO"]
+        self.USERNAME = payload["USERNAME"]
+        self.PASSWS = payload["PASSWS"]
         self.DIRECCION = payload["DIRECCION"]
 
     def __repr__(self) -> str:
@@ -53,6 +57,8 @@ class Model_users(Base):
             'TELEFONO_1':self.TELEFONO_1,
             'TELEFONO_2':self.TELEFONO_2,
             'CORREO':self.CORREO,
+            'USERNAME':self.USERNAME,
+            'PASSWS':self.PASSWS,
             'DIRECCION':self.DIRECCION
         }
         return json.dumps(column, default=str)
