@@ -1,10 +1,12 @@
 from Utils.Database import Database
 from Utils.Response import Response
 import jwt
+import bcrypt
 import datetime
 from os import getenv
 from models.model_usuarios_table import Model_users as U
 from models.model_salts_table import Model_salts as S
+from models.model_tokens_table import Model_tokens as T
 
 
 class Login(Response):
@@ -20,8 +22,16 @@ class Login(Response):
         db = Database("dbr").session
 
         try:
+            # The data of the user who wants access is extracted.
+            sub_query = db.query(U).filter(U.USERNAME == data["USERNAME"]).first()
 
-            if db.query(U).filter(U.USERNAME == data["USERNAME"], U.PASSWS == data["PASSWS"]).first():
+            # The user salt is extracted according to the id.
+            salt = db.query(S.SALT).filter(S.ID_USUARIO == sub_query.ID).first()
+
+            # Password hashed and stored in base.
+            hashed_password = sub_query.PASSWS
+
+            if bcrypt.checkpw(data["PASSWS"].encode("utf-8"),hashed_password.encode("utf-8")):
                 return True
             else:
                 return False
@@ -53,7 +63,11 @@ class Login(Response):
 
                 # Token generation.
                 token = jwt.encode({"username":data["USERNAME"], "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)}, key=getenv("SECRET"), algorithm="HS256")
-                return token
+                data_log_tokens = {"USERNAME":data["USERNAME"],"TOKEN":token}
+                
+                if self.log_tokens(data_log_tokens):
+                    
+                    return token
             
             else:
                 
@@ -93,6 +107,37 @@ class Login(Response):
                 return True
             else:
                 return False
+
+        except Exception as e:
+            raise ValueError(e)
+        
+        finally:
+            db.invalidate()
+            db.close()
+
+
+
+    def log_tokens(self, data:dict) -> bool:
+
+        """
+        Method in charge of storing the token that is generated at the moment of registration.
+
+        Metodo encargado de almacenar el token que se genera al instante del registro.
+        """
+
+        db = Database("dbr").session
+
+        try:
+
+            query = db.query(U).filter(U.USERNAME == data["USERNAME"]).first()
+
+            new_data = {"ID_USUARIO":query.ID,"TOKEN":data["TOKEN"]}
+            
+            record = T(new_data)
+            db.add(record)
+            db.commit()
+
+            return True
 
         except Exception as e:
             raise ValueError(e)
