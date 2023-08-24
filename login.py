@@ -4,6 +4,7 @@ import jwt
 import datetime
 from os import getenv
 from models.model_usuarios_table import Model_users as U
+from models.model_salts_table import Model_salts as S
 
 
 class Login(Response):
@@ -51,7 +52,7 @@ class Login(Response):
             if user:
 
                 # Token generation.
-                token = jwt.encode({"username":data["USERNAME"], "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=20)}, key=getenv("SECRET"), algorithm="HS256")
+                token = jwt.encode({"username":data["USERNAME"], "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)}, key=getenv("SECRET"), algorithm="HS256")
                 return token
             
             else:
@@ -64,6 +65,38 @@ class Login(Response):
             raise ValueError(e)
         
         # Termination and closure of connection.
+        finally:
+            db.invalidate()
+            db.close()
+
+
+
+    def log_salt(self, data:dict)-> bool:
+
+        """
+        Method in charge of storing the salt that is generated at the moment of the registry.
+
+        Metodo encargado de almacenar la sal que se genera al instante del registro.
+        """
+
+        db = Database("dbr").session
+
+        try:
+            
+            # An instance of the model salt is created and data is passed to it.
+            record = S(data)
+            db.add(record)
+            db.commit()
+
+            # Registration Verification.
+            if db.query(S).filter(S.ID_USUARIO == data["ID_USUARIO"], S.SALT == data["SALT"]).first():
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            raise ValueError(e)
+        
         finally:
             db.invalidate()
             db.close()

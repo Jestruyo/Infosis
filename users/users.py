@@ -1,7 +1,9 @@
+import bcrypt
 from Utils.Database import Database
 from Utils.Response import Response
 from models.model_usuarios_table import Model_users as U
 from models.model_reports_table import Model_reports as R
+from login import Login
 
 
 class User(Response):
@@ -16,16 +18,36 @@ class User(Response):
 
         # Database instance.
         db = Database("dbr").session
+        login = Login()
         
         try:
+
+            # Random salt generation
+            salt = bcrypt.gensalt()
+
+            # The hashed password is generated.
+            hashed_password = bcrypt.hashpw(data["PASSWS"].encode("utf-8"),salt)
+
+            # The data dictionary is updated.
+            data["PASSWS"] = hashed_password
 
             # The users model is instantiated and the data is passed to it.
             new_user = U(**data)
             db.add(new_user)
             db.commit()
 
-            # Answer.
-            res = {"message":"registration success","state":200}
+            # Query for the required data from the salt record.
+            query = db.query(U).filter(U.PASSWS == data["PASSWS"]).first()
+            data_log_salt = {"ID_USUARIO":query.ID,"SALT":salt}
+            log_salt = login.log_salt(data_log_salt)
+
+            if log_salt:
+
+                # Answer.
+                res = {"message":"registration success","state":200}
+                return res
+            
+            res = {"message":"Failed to secure user salt","state":400}
             return res
 
         except Exception as e:
