@@ -21,8 +21,10 @@ class Login(Response):
 
         try:
 
-            query = db.query(U).filter(U.USERNAME == data["USERNAME"], U.PASSWS == data["PASSWS"]).first()
-            return query
+            if db.query(U).filter(U.USERNAME == data["USERNAME"], U.PASSWS == data["PASSWS"]).first():
+                return True
+            else:
+                return False
             
         except Exception as e:
             raise ValueError(e)
@@ -47,9 +49,7 @@ class Login(Response):
         try:
 
             # It is validated that the username and password are registered.
-            user = self.credential_checker(data)
-
-            if user:
+            if self.credential_checker(data):
 
                 # Token generation.
                 token = jwt.encode({"username":data["USERNAME"], "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10)}, key=getenv("SECRET"), algorithm="HS256")
@@ -58,7 +58,7 @@ class Login(Response):
             else:
                 
                 # Answer.
-                res = {"message":"Authentication Error", "state":401}
+                res = {"message":"Authentication Error", "state":400}
                 return res
 
         except Exception as e:
