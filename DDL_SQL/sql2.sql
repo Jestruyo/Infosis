@@ -94,7 +94,7 @@ ALTER TABLE USUARIOS MODIFY PASSWS varchar(300) not NULL;
 
 -- Query para actualizar el campo grupo de cada usuario.
 USE Infosis;
-UPDATE GRUPOS SET NUMERO_DE_INTEGRANTES = 2 WHERE ID = 2;
+UPDATE GRUPOS SET NUMERO_DE_INTEGRANTES = 8 WHERE ID = 2;
 
 -- Consulta para traer los uruarios de cada grupo.
 SELECT * FROM USUARIOS WHERE GRUPO = 2;

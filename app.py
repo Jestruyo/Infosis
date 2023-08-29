@@ -27,7 +27,7 @@ def consult_register():
         return jsonify(res)
 
     except Exception as e:
-        return str(e)  # Returns the error as a string.
+        return str(e) # Returns the error as a string.
 
     
 

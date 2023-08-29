@@ -3,6 +3,7 @@ from Utils.Database import Database
 from Utils.Response import Response
 from models.model_usuarios_table import Model_users as U
 from models.model_reports_table import Model_reports as R
+from groups.groups import Groups
 from login import Login
 
 
@@ -19,6 +20,7 @@ class User(Response):
         # Database instance.
         db = Database("dbr").session
         login = Login()
+        groups = Groups()
         
         try:
 
@@ -38,16 +40,22 @@ class User(Response):
 
             # Query for the required data from the salt record.
             query = db.query(U).filter(U.PASSWS == data["PASSWS"]).first()
+
+            # Salt registration data.
             data_log_salt = {"ID_USUARIO":query.ID,"SALT":salt}
             log_salt = login.log_salt(data_log_salt)
+            
+            # Group update data.
+            data_update_group = {"ID":query.GRUPO}
+            update_group = groups.update_group_members(data_update_group)
 
-            if log_salt:
+            if log_salt == True and update_group == True:
 
                 # Answer.
                 res = {"message":"registration success","state":200}
                 return res
-            
-            res = {"message":"Failed to secure user salt","state":400}
+            # Warning.
+            res = {"message":"Failed to protect user salt, or members update failed","state":400}
             return res
 
         except Exception as e:
