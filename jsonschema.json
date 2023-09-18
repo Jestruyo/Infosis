@@ -1,0 +1,104 @@
+{
+    "register": {
+        "type": "object",
+        "properties": {
+            "PRIMER_NOMBRE": {
+                "type": "string"
+            },
+            "SEGUNDO_NOMBRE": {
+                "type": "string",
+                "default": null
+            },
+            "PRIMER_APELLIDO": {
+                "type": "string"
+            },
+            "SEGUNDO_APELLIDO": {
+                "type": "string",
+                "default": null
+            },
+            "EDAD": {
+                "type": "integer"
+            },
+            "SEXO": {
+                "type": "string"
+            },
+            "GRUPO": {
+                "type": "integer"
+            },
+            "PRIVILEGIO_SERVICIO": {
+                "type": "integer"
+            },
+            "TELEFONO_1": {
+                "type": "string"
+            },
+            "TELEFONO_2": {
+                "type": "string",
+                "default": null
+            },
+            "CORREO": {
+                "type": "string",
+                "default": null
+            },
+            "USERNAME":{
+                "type": "string"
+            },
+            "PASSWS":{
+                "type": "string"
+            },
+            "DIRECCION": {
+                "type": "string"
+            }
+        },
+        "required": ["PRIMER_NOMBRE", "PRIMER_APELLIDO", "EDAD", "SEXO", "GRUPO", "PRIVILEGIO_SERVICIO", "TELEFONO_1", "USERNAME", "PASSWS", "DIRECCION"]
+    },
+
+    "filter_privileges":{
+        "type": "object",
+        "properties":{
+            "ID_PRIVILEGIO":{
+                "type": "integer"
+            }
+        },
+        "required":["ID_PRIVILEGIO"]
+    },
+
+    "reports":{
+        "type": "object",
+        "properties":{
+            "ID_USUARIO":{
+                "type": "integer"
+            },
+            "HORAS":{
+                "type": "integer",
+                "default": 0
+            },
+            "PUBLICACIONES":{
+                "type": "integer",
+                "default": 0
+            },
+            "REVISITAS":{
+                "type": "integer",
+                "default": 0
+            },
+            "ESTUDIOS":{
+                "type": "integer",
+                "default": 0
+            }
+        },
+        "required":["ID_USUARIO"]
+    },
+
+    "tokens":{
+        "type": "object",
+        "properties":{
+            "USERNAME":{
+                "type":"string"
+            },
+            "PASSWS":{
+                "type": "string"
+            }
+        },
+        "required":["USERNAME", "PASSWS"]
+    }
+    
+}
