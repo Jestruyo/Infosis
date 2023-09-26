@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from Utils.Validations import validate_data
 from login import Login
 from congregation.congregation import Congregation
+from congregation.privileges import Privileges
 from users.users import User
 
 # App initialization.
@@ -11,6 +12,7 @@ app = Flask(__name__)
 congregation = Congregation()
 users = User()
 login = Login()
+privileges = Privileges()
 
 # Definition of the route.
 @app.route("/users_congregation/", methods = ["GET"])
@@ -74,6 +76,34 @@ def register():
     
 
 
+@app.route("/privilege_log/", methods = ["POST"])
+def privileges_res():
+
+    """
+    Path to create the different privileges.
+    
+    Ruta para crear los distintos privilegios.
+    """
+
+    try:
+
+        data_privileges = {
+
+            "TIPO":request.json["TIPO"]
+        }
+
+        # Json data validator.
+        validate_data(data_privileges,"privilege_log")
+
+        # Registration function.
+        register_privileges = privileges.log_privileges(data_privileges)
+        return jsonify(register_privileges)
+
+    except Exception as e:
+        return str(e)  # Returns the error as a string.
+
+
+    
 # Definition of the route.
 @app.route("/get_tokens/", methods = ["POST"])
 def tokens():

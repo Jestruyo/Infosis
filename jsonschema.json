@@ -52,6 +52,16 @@
         "required": ["PRIMER_NOMBRE", "PRIMER_APELLIDO", "EDAD", "SEXO", "GRUPO", "PRIVILEGIO_SERVICIO", "TELEFONO_1", "USERNAME", "PASSWS", "DIRECCION"]
     },
 
+    "privilege_log":{
+        "type": "object",
+        "properties":{
+            "TIPO":{
+                "type": "string"
+            }
+        },
+        "required": ["TIPO"]
+    },
+
     "filter_privileges":{
         "type": "object",
         "properties":{
