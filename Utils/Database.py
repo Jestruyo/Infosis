@@ -33,7 +33,7 @@ class Database:
                     "username": "root",
                     "password": "123123",
                     "host": "localhost",
-                    "bd_name": "Infosis"
+                    "bd_name": "infosis"
                 }
 
             elif mode == "dbw":
@@ -50,7 +50,7 @@ class Database:
                     "username": "root",
                     "password": "123123",
                     "host": "localhost",
-                    "bd_name": "Infosis"
+                    "bd_name": "infosis"
                 }
 
             else:
